@@ -1,3 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init
+  namespace: restaurante
+data:
+  init.sql: |
+    CREATE TABLE IF NOT EXISTS platos (
+      id SERIAL PRIMARY KEY,
+      nombre VARCHAR(100),
+      descripcion TEXT,
+      precio DECIMAL(10,2)
+    );
+
+    INSERT INTO platos (nombre, descripcion, precio) VALUES
+      ('Milanesa', 'Milanesa de ternera con papas fritas', 1500.00),
+      ('Empanadas', 'Docena de empanadas de carne', 1200.00),
+      ('Asado', 'Tira de asado con chimichurri', 2500.00);
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -37,9 +56,14 @@ spec:
         volumeMounts:
         - name: postgres-data
           mountPath: /var/lib/postgresql/data
+        - name: postgres-init
+          mountPath: /docker-entrypoint-initdb.d
       volumes:
       - name: postgres-data
         emptyDir: {}
+      - name: postgres-init
+        configMap:
+          name: postgres-init
 ---
 apiVersion: v1
 kind: Service
