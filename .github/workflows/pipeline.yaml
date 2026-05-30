@@ -1,0 +1,44 @@
+name: CI/CD Restaurante
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Bajar el codigo
+      uses: actions/checkout@v3
+
+    - name: Login a Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Construir y subir backend
+      uses: docker/build-push-action@v4
+      with:
+        context: ./backend
+        push: true
+        tags: ${{ secrets.DOCKER_USERNAME }}/restaurante-backend:latest
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Bajar el codigo
+      uses: actions/checkout@v3
+
+    - name: Login a Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Construir y subir frontend
+      uses: docker/build-push-action@v4
+      with:
+        context: ./frontend
+        push: true
+        tags: ${{ secrets.DOCKER_USERNAME }}/restaurante-frontend:latest
