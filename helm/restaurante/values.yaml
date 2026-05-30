@@ -1,0 +1,22 @@
+namespace: restaurante
+
+frontend:
+  image: lauuwu/restaurante-frontend:latest
+  replicas: 1
+  port: 80
+
+backend:
+  image: lauuwu/restaurante-backend:latest
+  replicas: 1
+  port: 5000
+
+postgres:
+  image: postgres:15
+  port: 5432
+
+database:
+  name: restaurante
+  user: postgres
+
+ingress:
+  host: restaurante.local
