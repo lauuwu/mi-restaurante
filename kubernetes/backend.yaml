@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: lauuwu/mi-app:latest
+        image: lauuwu/restaurante-backend:latest
         env:
         - name: DB_HOST
           valueFrom:

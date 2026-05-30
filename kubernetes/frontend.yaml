@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: lauuwu/mi-app:latest
+        image: lauuwu/restaurante-frontend:latest
         ports:
         - containerPort: 80
 ---
