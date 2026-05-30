@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Restaurante</title>
+  <style>
+    body { font-family: Arial; max-width: 800px; margin: 0 auto; padding: 20px; }
+    h1 { color: #333; }
+    .plato { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 5px; }
+    .precio { color: green; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Nuestro Menu</h1>
+  <div id="menu"></div>
+  <script>
+    fetch('/api/menu')
+      .then(r => r.json())
+      .then(platos => {
+        const div = document.getElementById('menu')
+        platos.forEach(p => {
+          div.innerHTML += `
+            <div class="plato">
+              <h3>${p.nombre}</h3>
+              <p>${p.descripcion}</p>
+              <p class="precio">$${p.precio}</p>
+            </div>`
+        })
+      })
+  </script>
+</body>
+</html>
